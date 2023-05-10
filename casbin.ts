@@ -99,16 +99,17 @@ const dataSource = new DataSource({
 async function getRoleCodes({ userId, departmentId }): Promise<any[]> {
     await dataSource.initialize();
     const recursicveQuerySql = `
-       select code from user_role left join role on role.id=user_role.role_id where  user_id='${userId}'
-       and department_id='${departmentId}' or department_id is null or department_id in (       
+       select code from user_role left join role on role.id=user_role.role_id where  user_id=?
+       and  department_id is null or department_id in (       
             with recursive temp   as (
-                    select *   from department_tree d where d.uid ='${departmentId}'
+                    select *   from department_tree d where d.uid =?
                     union all
                     select d.* from department_tree d ,temp t WHERE t.pid = d.uid
-            )  select pid from temp
+            )  select uid from temp
         )         
         `;
-    const records = await dataSource.query(recursicveQuerySql);
+    
+    const records = await dataSource.query(recursicveQuerySql,[userId,departmentId]);
     return records
 }
 
@@ -118,7 +119,7 @@ const resource = context.path.replace(globalPrefix,'')
 const action = context.method.toLowerCase()
 
 getRoleCodes(context).then(res => {
-    const roleCodes = res.map(x => x['code']);
+    const roleCodes = new Set(res.map(x => x['code'])) ;
     const authzService = new AuthzService();
     authzService.checkPermission(roleCodes,resource ,action);
 });
