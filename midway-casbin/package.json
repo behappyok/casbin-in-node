@@ -1,0 +1,81 @@
+{
+  "name": "my-authorize-project",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "bin": "./bootstrap.js",
+  "pkg": {
+    "scripts": "dist/**/*.js",
+    "assets": [],
+    "targets": [
+      "node16-linux-x64"
+    ],
+    "outputPath": "build"
+  },
+  "dependencies": {
+    "@midwayjs/bootstrap": "^3.0.0",
+    "@midwayjs/core": "^3.0.0",
+    "@midwayjs/decorator": "^3.0.0",
+    "@midwayjs/info": "^3.11.11",
+    "@midwayjs/jwt": "^3.11.11",
+    "@midwayjs/koa": "^3.0.0",
+    "@midwayjs/logger": "^2.14.0",
+    "@midwayjs/passport": "^3.11.11",
+    "@midwayjs/redis": "^3.11.11",
+    "@midwayjs/typeorm": "^3.11.11",
+    "@midwayjs/validate": "^3.0.0",
+    "axios": "0.27.2",
+    "casbin": "^5.26.1",
+    "cookie": "^0.5.0",
+    "json-bigint": "^1.0.0",
+    "mysql": "^2.18.1",
+    "passport-http-bearer": "^1.0.1",
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0",
+    "path-to-regexp": "^6.2.1",
+    "typeorm": "^0.3.17"
+  },
+  "devDependencies": {
+    "@midwayjs/bundle-helper": "^1.2.1",
+    "@midwayjs/cli": "^2.0.0",
+    "@midwayjs/mock": "^3.0.0",
+    "@midwayjs/swagger": "^3.11.11",
+    "@types/jest": "^29.2.0",
+    "@types/koa": "^2.13.4",
+    "@types/node": "14",
+    "@vercel/ncc": "^0.36.1",
+    "cross-env": "^6.0.0",
+    "jest": "^29.2.2",
+    "mwts": "^1.0.5",
+    "pkg": "^5.8.1",
+    "swagger-ui-dist": "^5.1.0",
+    "ts-jest": "^29.0.3",
+    "typescript": "~4.8.0"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "scripts": {
+    "start": "set NODE_ENV=production node ./bootstrap.js",
+    "dev": "cross-env NODE_ENV=local midway-bin dev --ts",
+    "test": "midway-bin test --ts",
+    "cov": "midway-bin cov --ts",
+    "lint": "mwts check",
+    "lint:fix": "mwts fix",
+    "ci": "npm run cov",
+    "build": "midway-bin build -c",
+    "pkg": "pkg . -d > build/pkg.log",
+    "bundle": "bundle && npm run build && ncc build bootstrap.js -o build",
+    "bundle_start": "set NODE_ENV=production node ./build/index.js"
+  },
+  "midway-bin-clean": [
+    ".vscode/.tsbuildinfo",
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "anonymous",
+  "license": "MIT"
+}
